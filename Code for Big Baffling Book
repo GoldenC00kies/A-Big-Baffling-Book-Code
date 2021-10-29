@@ -26,14 +26,16 @@ for chapter in range(1,10):
   """
   sentences = (["Sally sells seashells by the sea shore","brutish Brian bullied big bears","Billy bought big bouncy balloons","spooky scary skeletons scittered away","Mark mashed many mellons maddeningly","tiny Tim taught tigers to talk","six sleek swans swam swiftly southwards","sullen Sam somberly sought soulless shoes","bashful Bill bought banned bananas","cunning Connor carved cabbages cluelessly", "dainty Dianna danced dashingly","eager Eric eavesdroped earnestlly","fanatical Frank fought ferocious felines fleetinglly","gassy Gabe got ghosted","heartless Hannah haggled hellishly","idiotic Ian illogically ignored interesting iguanas","jazzy Jake jumped joyously","kingly Kevin kicked keys","lovely Lucy lacked lollipops","mad Martin magically made macaroni","obtuse Octavia obstructed occult oddities","pretty Patricia played piano passionately","quizzical Quincy quantified quils","radical Randy ran ramshackle roads","ticklish Tom took tiny tents","vicious Veronica violentlly vacated venice","wacky Will waited wearingly"])
   novel += random.choice(sentences).capitalize()
-  for w in range(random.randrange(3,4000)):
-    novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
+  novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
+  for w in range(random.randrange(10,300)):
     novel += random.choice(sentences)
-    if (novel[-2] in [".","!","?"]):
+    novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
+    if (novel[-1] in [".","!","?"]):
       novel += random.choice(sentences).capitalize()
+      novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
     else:
       novel += random.choice(sentences)
-    
+      novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
     
     if (random.randrange(1,30) < 2):
       novel += "\n\n"
