@@ -1,0 +1,120 @@
+!pip install weasyprint==52.5
+
+import markdown
+from weasyprint import HTML, CSS
+from weasyprint.fonts import FontConfiguration
+
+import random
+
+novel = """
+
+
+# A Big Baffling Book
+### by Matthew Abbott
+
+---
+
+"""
+
+
+
+for chapter in range(1,10):
+  novel += f"""
+
+ ## Chapter {chapter}
+
+  """
+  sentences = (["Sally sells seashells by the sea shore","brutish Brian bullied big bears","Billy bought big bouncy balloons","spooky scary skeletons scittered away","Mark mashed many mellons maddeningly","tiny Tim taught tigers to talk","six sleek swans swam swiftly southwards","sullen Sam somberly sought soulless shoes","bashful Bill bought banned bananas","cunning Connor carved cabbages cluelessly", "dainty Dianna danced dashingly","eager Eric eavesdroped earnestlly","fanatical Frank fought ferocious felines fleetinglly","gassy Gabe got ghosted","heartless Hannah haggled hellishly","idiotic Ian illogically ignored interesting iguanas","jazzy Jake jumped joyously","kingly Kevin kicked keys","lovely Lucy lacked lollipops","mad Martin magically made macaroni","obtuse Octavia obstructed occult oddities","pretty Patricia played piano passionately","quizzical Quincy quantified quils","radical Randy ran ramshackle roads","ticklish Tom took tiny tents","vicious Veronica violentlly vacated venice","wacky Will waited wearingly"])
+  novel += random.choice(sentences).capitalize()
+  for w in range(random.randrange(3,4000)):
+    novel += random.choice([". ","; ","! ",". ",". ",". ", ", and ",", but ","? "])
+    novel += random.choice(sentences)
+    if (novel[-2] in [".","!","?"]):
+      novel += random.choice(sentences).capitalize()
+    else:
+      novel += random.choice(sentences)
+    
+    
+    if (random.randrange(1,30) < 2):
+      novel += "\n\n"
+
+
+
+html = markdown.markdown(novel)
+
+font_config = FontConfiguration()
+rendered_html = HTML (string=html)
+
+css = CSS(string='''
+@import url(''https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap'');
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');
+body {
+font-family: 'Merriweather', serif;
+}
+
+hr {
+  break-after: recto; 
+}
+
+h1 {
+  font-size: 50pt;
+  text-align:center;
+  margin-top: 3in;
+  font-family: 'Lato',serif;
+}
+h2{
+  break-before: recto;
+  font-family: 'Lato',serif;
+}
+
+h3 {
+  font-size: 20pt;
+  text-align:center;
+}
+
+/* set the basic page geometry and start the incrementer */
+@page {
+  font-family: 'Merriweather', serif;
+  margin: 1in;
+  size: letter;
+  counter-increment: page;
+  @bottom-center {
+    content: "Laugh Track";
+    text-align:center;
+    font-style: italic;
+    color: #666666;
+  }
+}
+
+/* print the page number on the bottom-right of recto pages */
+@page :right {
+  @bottom-right{
+    content: "[" counter(page) "]";
+    text-align:right;
+    color: #666666;
+    visibility: invisible;
+  }
+}
+
+/* print the page number on the bottom-left of verso pages */
+@page :left {
+  @bottom-left{
+    content: "[" counter(page) "]";
+    text-align:left;
+    color: #666666;
+  }
+}
+
+/* blank the footer on the first page */
+@page:first{
+  @bottom-left {content: ""}
+  @bottom-right {content: ""}
+  @bottom-center {content: ""}
+}
+
+
+''', font_config=font_config)
+
+rendered_html.write_pdf('/content/sample.pdf', stylesheets=[css],font_config=font_config)
+
